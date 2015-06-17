@@ -1,8 +1,8 @@
 NAME = zookeeper
-VERSION = 3.4.4
-DEPENDS := "java6-runtime"
+VERSION = 3.4.6
+DEPENDS := $(JAVA_PACKAGE)
 FPM_SOURCE = dir
-SOURCE_URL = http://mirror.cogentco.com/pub/apache/zookeeper/zookeeper-$(VERSION)/zookeeper-$(VERSION).tar.gz
+SOURCE_URL = http://apache.mirrors.lucidnetworks.net/zookeeper/zookeeper-$(VERSION)/zookeeper-$(VERSION).tar.gz
 SRC_TGZ = $(notdir $(SOURCE_URL))
 PACKAGE_URL = http://zookeeper.apache.org/
 PACKAGE_DESCRIPTION = High-performance coordination service for distributed applications

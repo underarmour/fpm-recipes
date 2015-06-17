@@ -4,6 +4,9 @@ CACHEDIR = $(TOP)/tmp/cache
 DESTDIR = $(TOP)/tmp/dest
 PKGDIR = $(TOP)/pkg
 
+# could be "java6-runtime" here
+JAVA_PACKAGE = "jdk1.8.0_45"
+
 .PHONY: all checkversion clean distclean default_build default_fetch \
 	 default_package
 
@@ -62,10 +65,10 @@ FPM_ARGS += --before-remove $(PREUNINSTALL)
 endif
 
 ifeq ($(FPM_SOURCE),dir)
-FPM_CMD := fpm -t deb -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
-	-C $(DESTDIR) --deb-user root --deb-group root .
+FPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
+	-C $(DESTDIR) --rpm-user root --rpm-group root .
 else
-FPM_CMD := fpm -t deb -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
+FPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
 endif
 
 all: build package
