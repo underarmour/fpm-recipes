@@ -65,10 +65,13 @@ FPM_ARGS += --before-remove $(PREUNINSTALL)
 endif
 
 ifeq ($(FPM_SOURCE),dir)
-FPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
+FPM_DEB_CMD := fpm -t deb -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
+	-C $(DESTDIR) --deb-user root --deb-group root .
+FPM_RPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
 	-C $(DESTDIR) --rpm-user root --rpm-group root .
 else
-FPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
+FPM_DEB_CMD := fpm -t deb -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
+FPM_RPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
 endif
 
 all: build package
@@ -88,8 +91,13 @@ $(DESTDIR):
 	mkdir -p $(DESTDIR)
 
 $(PKGDIR):
-	mkdir -p $(PKGDIR)
-	cd $(PKGDIR); $(FPM_CMD)
+	mkdir -p $(PKGDIR);
+
+$(PKGDIR)/*.deb: $(PKGDIR)
+	cd $(PKGDIR) && $(FPM_DEB_CMD);
+
+$(PKGDIR)/*.rpm: $(PKGDIR)
+	cd $(PKGDIR) && $(FPM_RPM_CMD);
 
 clean:
 	rm -rf tmp
@@ -97,12 +105,18 @@ clean:
 distclean: clean
 	rm -rf $(PKGDIR)
 
+pkgclean:
+	rm -rf $(PKGDIR)
+
 default_fetch: $(CACHEDIR)
-	cd $(CACHEDIR); wget $(SOURCE_URL)
+	if [ ! -f $(CACHEDIR)/$(SRC_TGZ) ]; \
+	then cd $(CACHEDIR) && curl --retry 5 -# -L -k -o $(SRC_TGZ) $(SOURCE_URL); \
+	else echo "Using previously downloaded file"; \
+	fi;
 
 default_build: $(BUILDDIR) $(DESTDIR)
 
-default_package: $(PKGDIR)
+default_package: $(PKGDIR) $(PKGDIR)/*.deb $(PKGDIR)/*.rpm
 
 fetch: default_fetch
 build: default_build
