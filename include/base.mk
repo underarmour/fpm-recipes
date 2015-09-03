@@ -68,7 +68,7 @@ ifeq ($(FPM_SOURCE),dir)
 FPM_DEB_CMD := fpm -t deb -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
 	-C $(DESTDIR) --deb-user root --deb-group root .
 FPM_RPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) -n $(NAME) \
-	-C $(DESTDIR) --rpm-user root --rpm-group root .
+	-C $(DESTDIR) --rpm-user root --rpm-group root --rpm-os linux .
 else
 FPM_DEB_CMD := fpm -t deb -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
 FPM_RPM_CMD := fpm -t rpm -s $(FPM_SOURCE) $(FPM_ARGS) $(NAME)
