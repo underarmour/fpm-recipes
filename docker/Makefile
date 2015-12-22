@@ -1,5 +1,5 @@
 NAME = docker-engine
-VERSION = 1.8.2
+VERSION = 1.9.1
 DEPENDS := iptables libcgroup device-mapper-libs sqlite tar xz
 FPM_SOURCE = dir
 SOURCE_URL = http://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-$(VERSION)-1.el7.centos.x86_64.rpm
