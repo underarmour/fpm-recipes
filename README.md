@@ -17,3 +17,4 @@ Requires the ruby gem FPM.  Requires rpmbuild for making RPMs and dpkg for makin
  - build both RPMs and DEBs
  - reuse the downloaded file
  - added pkgclean because I couldn't figure out how to retrigger $(PKG_DIR):
+ - bumped docker-engine
