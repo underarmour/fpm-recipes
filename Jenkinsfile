@@ -3,7 +3,7 @@ def release(){
     return {
         if (currentBuild.result == "SUCCESS"){
             image_name = env.DOCKER_REGISTRY_HOST + '/' + env.DOCKER_IMAGE_NAME + ':' + env.DOCKER_IMAGE_TAG
-            docker.image(image_name).inside("-e BRANCH_NAME") {
+            docker.image(image_name).inside("-e ARTIFACTORY_USERNAME -e ARTIFACTORY_PASSWORD") {
                 sh 'cd /recipes/docker && make'
                 sh 'curl -u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} --upload-file /recipes/docker/pkg/*.rpm https://repo.uacf.io/artifactory/yum-uacf/amzn/latest/x86_64/'
                 sh 'curl -u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} -X POST https://repo.uacf.io/artifactory/api/yum/yum-uacf?async=1'
