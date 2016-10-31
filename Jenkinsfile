@@ -1,9 +1,16 @@
 def release(){
+
     return {
-        sh 'cd docker'
-        sh 'make'
-        step([$class: 'ArtifactArchiver', artifacts: '**/pkg/*.rpm', fingerprint: true])
-        step([$class: 'ArtifactArchiver', artifacts: '**/pkg/*.deb', fingerprint: true])
+        if (currentBuild.result == "SUCCESS"){
+            unstash 'git checkout'
+            image_name = env.DOCKER_REGISTRY_HOST + '/' + env.DOCKER_IMAGE_NAME + ':' + env.DOCKER_IMAGE_TAG
+            docker.image(image_name).inside("-e BRANCH_NAME") {
+                sh 'mkdir ./release/'
+                sh 'cp /recipes/docker/pkg/*.rpm ./release/'
+            }
+            sh 'echo upload to artifactory'
+            deleteDir()
+        }
     }
 }
 
