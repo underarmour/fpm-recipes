@@ -6,7 +6,4 @@ RUN gem install fpm
 
 COPY . /recipes/
 
-WORKDIR /recipes/docker/
-
-RUN make && rm -rf tmp
-
+WORKDIR /recipes/
