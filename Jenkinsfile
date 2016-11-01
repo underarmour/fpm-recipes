@@ -26,7 +26,7 @@ uacf_generic_pipeline {
             SLAVE: "swarm",
             DOCKER_IMAGE_NAME: "infra/docker-engine",
             DOCKER_CONTEXT_PATH: ".",
-            DOCKER_FILE: "./Dockerfile"
+            DOCKER_FILE: "./Dockerfile",
             DOCKER_TAGS: "v1.12.3"
         ]
 
