@@ -1,9 +1,11 @@
 FROM docker.uacf.io/uacf_amzn/uacf_base:master
 
-RUN yum -y install ruby ruby-devel && yum -y groupinstall 'Development Tools' && yum -y clean all
+RUN yum -q -y install ruby ruby-devel && \
+    yum -q -y groupinstall 'Development Tools' && \
+    gem install --no-rdoc --no-ri fpm && \
+    yum -q -y clean all && \
+    mkdir /usr/local/fpm-recipes
 
-RUN gem install fpm
+WORKDIR /usr/local/fpm-recipes
 
-COPY . /recipes/
-
-WORKDIR /recipes/
+COPY . /usr/local/fpm-recipes
