@@ -2,7 +2,7 @@ def release(){
 
     return {
         if (currentBuild.result == "SUCCESS"){
-            docker.image("infra/docker-engine:master").inside("--privileged -v /var/run/docker.sock:/var/run/docker.sock") {
+            docker.image("docker.uacf.io/infra/docker-engine:master").inside("--privileged -v /var/run/docker.sock:/var/run/docker.sock") {
                 sh 'cd /go/src/github.com/docker/docker/ && ./hack/make.sh binary'
                 sh 'mkdir ./binaries && cp --recursive /go/src/github.com/docker/docker/bundles/1.12.3 ./binaries/1.12.3'
             }
