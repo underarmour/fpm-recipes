@@ -10,7 +10,7 @@ PACKAGE_DESCRIPTION = The [sic] open-source application container engine
 include ../include/base.mk
 
 extract: fetch default_build
-	cd $(BUILDDIR);
+	cd $(BUILDDIR); rpm2cpio $(CACHEDIR)/$(SRC_TGZ) | cpio -idmv
 
 # this only works in the context of a docker.image(...).inside(...) thingy that's set a MOUNT_DIR for us
 build: extract
