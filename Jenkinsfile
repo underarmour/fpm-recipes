@@ -4,7 +4,7 @@ def release(){
         if (currentBuild.result == "SUCCESS"){
             image_name = env.DOCKER_REGISTRY_HOST + "/infra/docker-engine:master"
             docker.image(image_name).inside("--privileged -v /var/run/docker.sock:/var/run/docker.sock") {
-                sh 'cd /go/src/github.com/docker/docker/ && ./hack/make.sh binary'
+                sh 'cd /go/src/github.com/docker/docker/ && ./hack/make.sh dynbinary'
                 sh 'mkdir ./binaries && cp --recursive /go/src/github.com/docker/docker/bundles/1.12.3 ./binaries/1.12.3'
             }
 
