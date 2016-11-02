@@ -10,7 +10,7 @@ def release(){
 
             image_name = env.DOCKER_REGISTRY_HOST + '/' + env.DOCKER_IMAGE_NAME + ':' + env.DOCKER_IMAGE_TAG
             docker.image(image_name).inside("-e ARTIFACTORY_USERNAME -e ARTIFACTORY_PASSWORD") {
-                sh 'cd docker && MOUNT_DIR=`pwd` make rpm'
+                sh 'cd docker && MOUNT_DIR=`pwd` make'
                 sh 'curl -u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} --upload-file /usr/local/fpm-recipes/docker/pkg/*.rpm https://repo.uacf.io/artifactory/yum-uacf/amzn/latest/x86_64/'
                 sh 'curl -u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} -X POST https://repo.uacf.io/artifactory/api/yum/yum-uacf?async=1'
             }
