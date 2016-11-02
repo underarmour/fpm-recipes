@@ -16,7 +16,7 @@ extract: fetch default_build
 build: extract
 	cd $(BUILDDIR) \
 		&& rm -fR $(BUILDDIR)/usr/share/man $(BUILDDIR)/usr/share/doc \
-		&& cp $(MOUNT_DIR)/binaries/1.12.3/binary-client/* $(BUILDDIR)/usr/bin/ \
-		&& cp $(MOUNT_DIR)/binaries/1.12.3/binary-daemon/* $(BUILDDIR)/usr/bin/ \
+		&& cp $(MOUNT_DIR)/binaries/1.12.3/dynbinary-client/* $(BUILDDIR)/usr/bin/ \
+		&& cp $(MOUNT_DIR)/binaries/1.12.3/dynbinary-daemon/* $(BUILDDIR)/usr/bin/ \
 		&& mkdir -p $(DESTDIR) \
 		&& cp -pR $(BUILDDIR)/* $(DESTDIR)
