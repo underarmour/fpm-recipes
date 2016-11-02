@@ -8,7 +8,7 @@ def release(){
                 sh 'mkdir ./binaries && cp --recursive /go/src/github.com/docker/docker/bundles/1.12.3 ./binaries/1.12.3'
             }
 
-            image_name = env.DOCKER_REGISTRY_HOST + '/' + env.DOCKER_IMAGE_NAME + ':' + env.DOCKER_IMAGE_TAG
+            image_name = env.DOCKER_REGISTRY_HOST + '/infra/fpm-recipes:master'
             docker.image(image_name).inside("-e ARTIFACTORY_USERNAME -e ARTIFACTORY_PASSWORD") {
                 sh 'cd docker && MOUNT_DIR=${WORKSPACE} make'
                 sh 'curl -u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} --upload-file ${WORKSPACE}/docker/pkg/*.rpm https://repo.uacf.io/artifactory/yum-uacf/amzn/latest/x86_64/'
